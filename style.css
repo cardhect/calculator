@@ -1,0 +1,41 @@
+body {
+    background-color: rgb(33, 0, 63);
+}
+#calculator {
+    width: 50%;
+    
+    border: 24px rgb(252, 150, 124) solid;
+    display: flex;
+    flex-direction: column;
+}
+
+#display {
+    background-color: black;
+    padding: 40px;
+    color: white;
+    margin: 10px;
+}
+
+
+#num-container{
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.num-btn {
+    flex-grow: 1;
+    height: 100px;
+    width: 30%;
+    margin: 10px;
+}
+
+#operator-container {
+    display: flex;
+}
+
+.op-item {
+    height: 100px;
+    flex-grow: 1;
+    margin: 10px;
+}
