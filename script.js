@@ -1,3 +1,14 @@
+const display = document.querySelector("#display");
+const btn = document.querySelectorAll("button");
+
+let chosenOp = "";
+let newOp = '';
+let firstNum = "";
+let secondNum = "";
+let count = 0;
+let displayVal = '';
+let numArr = [];
+
 function add(b) {
   const sum = b.reduce((acum, val) => (acum += val));
   return sum;
@@ -15,7 +26,14 @@ function multiply(b) {
 
 function divide(b) {
   const divide = b.reduce((acum, val) => (acum /= val));
-  return divide;
+  if (b.includes(0)) {
+    
+    return display.textContent = 'Err';
+    
+    
+   } else {
+    return Math.round(divide);
+   }
 }
 
 function operate(a, b) {
@@ -32,16 +50,16 @@ function operate(a, b) {
 
 // const operator = document.querySelectorAll(".op-item");
 // const nums = document.querySelectorAll(".num-btn");
-const display = document.querySelector("#display");
-const btn = document.querySelectorAll("button");
+// const display = document.querySelector("#display");
+// const btn = document.querySelectorAll("button");
 
-let chosenOp = "";
-let newOp = '';
-let firstNum = "";
-let secondNum = "";
-let count = 0;
-let displayVal = '';
-let numArr = [];
+// let chosenOp = "";
+// let newOp = '';
+// let firstNum = "";
+// let secondNum = "";
+// let count = 0;
+// let displayVal = '';
+// let numArr = [];
 display.textContent = 0;
 btn.forEach((button) => {
   button.addEventListener("click", () => {
@@ -69,13 +87,16 @@ btn.forEach((button) => {
         display.textContent = firstNum;
       }
     } else if (button.id == "=") {
-
-      firstNum = operate(chosenOp, [parseInt(firstNum), parseInt(secondNum)]);
-      console.log('first number: ' + firstNum);
-      display.textContent = firstNum;
-      count = 0;
-      console.log(count);
-      secondNum = '';
+      if (firstNum == ''){
+        display.textContent = 'Enter a number first.';
+      } else { 
+        firstNum = operate(chosenOp, [parseInt(firstNum), parseInt(secondNum)]);
+        console.log('first number: ' + firstNum);
+        display.textContent = firstNum;
+        count = 0;
+        console.log(count);
+        secondNum = '';}
+     
       
     } else if (button.id == 'clear') {
       
@@ -84,9 +105,9 @@ btn.forEach((button) => {
        firstNum = "";
        secondNum = "";
        count = 0;
-       displayVal = 0;
+       
 
-       display.textContent = displayVal;
+       display.textContent = 0;
     }
 
     //if a operator hasnt been clicked save the current given number
