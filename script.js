@@ -30,95 +30,83 @@ function operate(a, b) {
   }
 }
 
-const operator = document.querySelectorAll(".op-item");
-const nums = document.querySelectorAll(".num-btn");
+// const operator = document.querySelectorAll(".op-item");
+// const nums = document.querySelectorAll(".num-btn");
 const display = document.querySelector("#display");
-const btn = document.querySelectorAll('button');
+const btn = document.querySelectorAll("button");
 
-let chosenOperator = '';
-let pairVal = 0;
+let chosenOp = "";
+let newOp = '';
+let firstNum = "";
+let secondNum = "";
 let count = 0;
-let numArr = [];
-
-operator.forEach((button) => {
-//cycles through each button
-  button.addEventListener("click", () => {
-    
-    //displays button clicked
-    // display.textContent = button.id;
-    chosenOperator = button.id;
-    console.log(chosenOperator);
-
-  });
-});
-
-let chosenNum = 0;
-
-//cycling through the number buttons
-nums.forEach((button) => {
-  button.addEventListener("click", () => {
-    //changes text in display to button clicked
-    // display.textContent = button.id;
-    
-    //assigns chosen number to variable
-    chosenNum = parseInt(button.id);
-    console.log(chosenNum);
-
-  });
-});
-
 let displayVal = '';
-
+let numArr = [];
+display.textContent = 0;
 btn.forEach((button) => {
-  button.addEventListener('click', () => {
-//if chosen input is a number do this code
-  if(numArr.length > 1) {
-    pairVal = operate(chosenOperator,numArr);
-    numArr[0] = pairVal;
-    console.log(numArr);
-
-  }
-  else if (!isNaN(parseInt(button.id))) {
-    displayVal += chosenNum;
-    console.log('is a number' + displayVal);
-
-    display.textContent = 'test c' + button.id;
-    // numArr.push(chosenNum);
-
-  } else if (count == 1 && button.id == '+' || button.id == '-' || button.id == '*' || button.id == '/' ) {
-    
-    display.textContent = 'test b' + displayVal;
-    //adds display value to the end of the array
-    numArr.push(parseInt(displayVal));
-    //makes the operated number the first in the array.
-    pairVal = operate(chosenOperator,numArr);
-    numArr[0] = pairVal;
-    
-    //removes last array item
-    numArr.pop();
-    console.log(numArr);
-
-    //reset the counter and display value
-    count--;
-    displayVal = '';
-    console.log('second count' + count);
+  button.addEventListener("click", () => {
     
 
-  } else if ( button.id == '+' || button.id == '-' || button.id == '*' || button.id == '/') {
+    if (
+      button.id == "+" ||
+      button.id == "-" ||
+      button.id == "*" ||
+      button.id == "/"
+    ) {
+      chosenOp = button.id;
+      count++;
+      console.log('count when op is chosen: ' + count);
+      displayVal = '';
+      //this will do the calculation of the first two numbers
+      if (count == 2) {
+        firstNum = operate(newOp, [parseInt(firstNum), parseInt(secondNum)]);
+        console.log('first number: ' + firstNum);
+        count = 1;
+        secondNum = '';
+        
+      }
+      if (count == 1) {
+        display.textContent = firstNum;
+      }
+    } else if (button.id == "=") {
 
-    display.textContent ='test a' +  displayVal;
-    numArr.push(parseInt(displayVal));
-    console.log('num array' + numArr);
-    count++;
-    console.log('first count' + count);
-    displayVal = '';
-    console.log(displayVal);
-    console.log(numArr);
+      firstNum = operate(chosenOp, [parseInt(firstNum), parseInt(secondNum)]);
+      console.log('first number: ' + firstNum);
+      display.textContent = firstNum;
+      count = 0;
+      console.log(count);
+      secondNum = '';
+      
+    } else if (button.id == 'clear') {
+      
+       chosenOp = "";
+       newOp = '';
+       firstNum = "";
+       secondNum = "";
+       count = 0;
+       displayVal = 0;
 
-    
-  
-  } 
-  //FUTURE NOTE!! create a conditional statement that finds if the array is bigger than 1, use the operate function on the 2 values.
+       display.textContent = displayVal;
+    }
 
+    //if a operator hasnt been clicked save the current given number
+    if (parseInt(button.id) >= 0 && count == 0) {
+      displayVal += button.id;
+      display.textContent = displayVal;
+      firstNum += button.id;
+      console.log('First Number: ' + firstNum);
+      //if a operator has been clicked this will save the second given number
+    } else if (parseInt(button.id) >= 0 && count == 1) {
+      
+      displayVal += button.id;
+      display.textContent = displayVal
+      
+      newOp = chosenOp;//new op is saved here?
+      console.log(newOp);
+      secondNum += button.id;
+      console.log('Second Number: ' + secondNum);
+    }
+
+    console.log('count: ' + count);
   });
 });
